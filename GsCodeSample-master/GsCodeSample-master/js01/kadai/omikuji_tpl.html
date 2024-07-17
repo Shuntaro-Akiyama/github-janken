@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>おみくじ</title>
+</head>
+<body>
+
+<header>
+    <h1>おみくじ</h1>
+</header>
+
+<main>
+    <ul>
+        <li id="pull">おみくじを引く</li>
+    </ul>
+    <p id="echo"></p>
+</main>
+
+<footer>フッター</footer>
+<script>
+$("#pull").on("click",function(){
+    const r = Math.random()*5; //小数点0.000001~0.99999
+    const n = Math.ceil(r);    //繰り上げ0.01➡1
+    console.log(n);
+    if(n == 1){ //グー
+        $("#echo").html('<img src="a.png">');           //文字を上書き
+        $("#echo").css("color","#ff0000"); //文字を赤
+        $("#echo").fadeOut(3000).fadeIn(3000); //文字を赤
+    }
+    if(n == 2){ //
+        $("#echo").html("中吉");
+        $("#echo").css("color","#00ff00"); //文字を緑
+    }
+    if(n == 3){
+        $("#echo").html("笑吉");
+        $("#echo").css("color","#0000ff"); //文字を青
+    }
+    if(n ==  4){
+        $("#echo").html("吉");
+        $("#echo").css("color","#000000"); //文字を黒
+    }
+    if(n == 5){
+        $("#echo").html("凶");
+        $("#echo").css("color","#000000"); //文字を黒
+    }
+});
+
+
+
+
+
+</script>
+</body>
+</html>

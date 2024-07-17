@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+</head>
+<body>
+
+<header>
+  <h1>じゃんけん</h1>
+</header>
+
+<main>
+  <ul>
+    <li id="gu_btn">グー</li>
+    <li id="cho_btn">チョキ</li>
+    <li id="par_btn">パー</li>
+  </ul>
+  <div>あなたの選択: <span id="player_hand">未選択</span></div>
+  <div id="player_hand_picture"></div>
+  <div>コンピュータの選択：<span id="pc_hands"></span></div>
+  <div id="pc_hands_picture"></div>
+  <div id="judgment">勝ち</div>
+
+  <div>
+    勝ち: <span id="win-count">0</span>
+    負け: <span id="lose-count">0</span>
+    あいこ: <span id="draw-count">0</span>
+  </div>
+  <button id="reset_btn">リセット</button>
+</main>
+
+<footer></footer>
+<script>
+//じゃんけん用のSCRIPTを書いてください
+let winCount = 0;
+let loseCount = 0;
+let drawCount = 0;
+
+function getComputerHand() {
+    const r = Math.random() * 3;
+    return Math.ceil(r);
+}
+
+function showResult(playerHand, computerHand, result) {
+    const hands = ['グー', 'チョキ', 'パー'];
+    const handImages = ['gu', 'cho', 'par'];
+    const colors = {'勝ち': '#ff0000', '負け': '#0000ff', 'あいこ': '#00ff00'};
+    
+    // プレイヤーの手を表示
+    $("#player_hand").html(hands[playerHand - 1]);
+    $("#player_hand").css("color", "#ff0000");
+    $("#player_hand_picture").html(`<img src="../kadai/img/${handImages[playerHand - 1]}.jpg">`);
+
+    // コンピュータの手を表示
+    $("#pc_hands").html(hands[computerHand - 1]);
+    $("#pc_hands").css("color", "#ff0000");
+    $("#pc_hands_picture").html(`<img src="../kadai/img/${handImages[computerHand - 1]}.jpg">`);
+
+    // 結果を表示
+    $("#judgment").html(result).hide(0).fadeIn(1000);
+    $("#judgment").css("color", colors[result]);
+}
+
+function judge(playerHand, computerHand) {
+    if (playerHand === computerHand) return 'あいこ';
+    if ((playerHand === 1 && computerHand === 2) ||
+        (playerHand === 2 && computerHand === 3) ||
+        (playerHand === 3 && computerHand === 1)) return '勝ち';
+    return '負け';
+}
+
+function updateCounts(result) {
+    if (result === '勝ち') winCount++;
+    else if (result === '負け') loseCount++;
+    else drawCount++;
+    
+    $("#win-count").text(winCount).hide(1).fadeIn(2000);
+    $("#lose-count").text(loseCount).hide(1).fadeIn(2000);
+    $("#draw-count").text(drawCount).hide(1).fadeIn(2000);
+}
+
+function playGame(playerHand) {
+    const computerHand = getComputerHand();
+    const result = judge(playerHand, computerHand);
+    showResult(playerHand, computerHand, result);
+    updateCounts(result);
+}
+
+function resetGame() {
+    winCount = 0;
+    loseCount = 0;
+    drawCount = 0;
+    $("#win-count").text('0');
+    $("#lose-count").text('0');
+    $("#draw-count").text('0');
+    $("#player_hand").html('未選択');
+    $("#player_hand_picture").html('');
+    $("#pc_hands").html('なに？');
+    $("#pc_hands_picture").html('');
+    $("#judgment").html('');
+}
+
+$("#gu_btn").on("click", function() { playGame(1); });
+$("#cho_btn").on("click", function() { playGame(2); });
+$("#par_btn").on("click", function() { playGame(3); });
+$("#reset_btn").on("click", resetGame);
+
+</script>
+</body>
+</html>
